@@ -25,7 +25,9 @@
     "sqlite3": "^5.0.2",
     "tedious": "^14.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  },
   "keywords": [],
   "description": ""
 }
