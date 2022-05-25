@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequelize')
+const sequelize = new Sequelize('mysql://root:qwerty@localhost:3000/joga_sequelize')
 
 const Article = require('../models/article')(sequelize, Sequelize.DataTypes);
 
