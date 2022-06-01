@@ -1,14 +1,50 @@
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/joga_sequelize')
+// connect to database
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize('mysql://root:qwerty@localhost:3306/yoga_sequelize');
 
-const Article = require('../models/article')(sequelize, Sequelize.DataTypes);
+// read model data for table representation
+const models = require('../models')
 
-const getAllArtticles = (req, res) => {
-    const articles = Article.findAll()
-    res.json(articles)
+// get all data from table
+const getAllArticles = (req, res) => {
+	models.Article.findAll()
+	.then(articles => {
+		console.log(articles)
+		return res.status(200).json({ articles });
+	})
+	.catch (error => {
+		return res.status(500).send(error.message);
+	})
 }
 
-
-module.exports = {
-    getAllArtticles
+// show article by this slug
+const getArticleBySlug = (req, res) => {
+	models.Article.findOne({
+		where: {
+			slug: req.params.slug
+		},
+		include: [{
+			model: models.Authors
+		},
+		{
+			model: models.Tags,
+			through: {
+				model: models.ArticleTags
+			}
+		}
+		],
+	})
+	.then(article => {
+		console.log(article)
+		return res.status(200).json({ article });
+	})
+	.catch (error => {
+		return res.status(500).send(error.message);
+	})
 };
+
+// export controller functions
+module.exports = {
+	getAllArticles,
+	getArticleBySlug
+}
